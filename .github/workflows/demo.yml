@@ -16,11 +16,6 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      
-  Build:
-    needs: Explore-GitHub-Actions
-    runs-on: ubuntu-latest
-    steps:
       - run: make all
       - run: echo "Demo is over :-)"      
 
