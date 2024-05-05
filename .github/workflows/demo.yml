@@ -40,7 +40,7 @@ jobs:
   black:
     name: black
     runs-on: ubuntu-latest
-     if: ${{ always() }}
+    if: ${{ always() }}
     needs: [pip-install, pytest]
     strategy:
       fail-fast: false
@@ -58,7 +58,7 @@ jobs:
   pylint:
     name: pylint
     runs-on: ubuntu-latest
-     if: ${{ always() }}
+    if: ${{ always() }}
     needs: [pip-install, pytest, black]
     strategy:
       fail-fast: false
