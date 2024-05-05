@@ -1,0 +1,76 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  pip-install:
+    name: pip-install
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+  pytest:
+    name: pytest
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [pip-install]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install pytest
+        run: pip install pytest          
+      - name: Test with pytest
+        run: pytest
+  black:
+    name: black
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [pip-install, pytest]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install black
+        run: pip install black
+      - name: Run black module
+        run: black ./
+        
+  pylint:
+    name: pylint
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [pip-install, pytest, black]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install pylint
+        run: pip install pylint
+      - name: Run pylint module
+        run: pylint ./
+      - name: Demo is over...
+        run: echo "Demo is over :-)"
