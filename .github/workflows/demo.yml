@@ -68,7 +68,7 @@ jobs:
       - name: Install pylint
         run: pip install pylint
       - name: Run pylint module
-        run: pylint ./ --ignore=__init__.py
+        run: pylint ./
       - name: Demo is over...
         run: echo "Demo is over :-)"
  
