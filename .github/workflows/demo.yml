@@ -39,7 +39,7 @@ jobs:
   black:
     name: black
     runs-on: ubuntu-latest
-    needs: [pip-install, pytest]
+    needs: [pip-install]
     strategy:
       fail-fast: false
     steps:
@@ -56,7 +56,7 @@ jobs:
   pylint:
     name: pylint
     runs-on: ubuntu-latest
-    needs: [pip-install, pytest, black]
+    needs: [pip-install, black]
     strategy:
       fail-fast: false
     steps:
