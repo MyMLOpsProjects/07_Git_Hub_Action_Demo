@@ -18,45 +18,8 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        run: make install
+        run: pip install -r requirements.txt
 
-  black:
-    name: black
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    needs: [pip-install, pytest]
-    strategy:
-      fail-fast: false
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Install black
-        run: pip install black
-      - name: Run black module
-        run: make format
-
-  pylint:
-    name: pylint
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    needs: [pip-install, pytest, black]
-    strategy:
-      fail-fast: false
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Install pylint
-        run: pip install pylint
-      - name: Run pylint module
-        run: make lint
-      - name: Demo is over...
-      
   pytest:
     name: pytest
     runs-on: ubuntu-latest
@@ -73,5 +36,41 @@ jobs:
       - name: Install pytest
         run: pip install pytest          
       - name: Test with pytest
-        run: make test
+        run: pytest
+  black:
+    name: black
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [pip-install, pytest]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install black
+        run: pip install black
+      - name: Run black module
+        run: black ./
+        
+  pylint:
+    name: pylint
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [pip-install, pytest, black]
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install pylint
+        run: pip install pylint
+      - name: Run pylint module
+        run: pylint ./
+      - name: Demo is over...
         run: echo "Demo is over :-)"
