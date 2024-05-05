@@ -36,7 +36,7 @@ jobs:
       - name: Install pytest
         run: pip install pytest          
       - name: Test with pytest
-        run: pytest
+        run: make test
   black:
     name: black
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
       - name: Install black
         run: pip install black
       - name: Run black module
-        run: black ./
+        run: make format
         
   pylint:
     name: pylint
@@ -71,6 +71,6 @@ jobs:
       - name: Install pylint
         run: pip install pylint
       - name: Run pylint module
-        run: pylint ./
+        run: make lint
       - name: Demo is over...
         run: echo "Demo is over :-)"
